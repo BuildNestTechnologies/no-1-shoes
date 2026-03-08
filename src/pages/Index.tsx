@@ -20,6 +20,7 @@ import StoreLocation from "@/components/StoreLocation";
 import Newsletter from "@/components/Newsletter";
 import InstagramGallery from "@/components/InstagramGallery";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const Index = () => {
   return (
@@ -27,6 +28,7 @@ const Index = () => {
       <ScrollProgress />
       <CursorFollower />
       <ScrollChapterDots />
+      <WhatsAppButton />
       <Navbar />
       <HeroSection />
       <MarqueeBanner />

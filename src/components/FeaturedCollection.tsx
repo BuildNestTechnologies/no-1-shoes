@@ -1,6 +1,6 @@
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { ArrowUpRight } from "lucide-react";
 import sneaker1 from "@/assets/sneaker-1.png";
 import sneaker2 from "@/assets/sneaker-2.png";
 import sneaker3 from "@/assets/sneaker-3.png";
@@ -8,94 +8,74 @@ import sneaker4 from "@/assets/sneaker-4.png";
 import sneaker5 from "@/assets/sneaker-5.png";
 
 const categories = [
-  { name: "Sneakers", img: sneaker1, tag: "New", desc: "Urban street classics" },
-  { name: "Sports Shoes", img: sneaker3, tag: "Hot", desc: "Performance driven" },
-  { name: "Casual Shoes", img: sneaker2, tag: "Trending", desc: "Everyday comfort" },
-  { name: "Streetwear", img: sneaker4, tag: "Fire", desc: "Bold statement pieces" },
-  { name: "Daily Wear", img: sneaker5, tag: "Popular", desc: "All-day style" },
+  { name: "Sneakers", img: sneaker1, count: "24 Products", color: "from-orange-500/10" },
+  { name: "Sports", img: sneaker3, count: "18 Products", color: "from-blue-500/10" },
+  { name: "Casual", img: sneaker2, count: "32 Products", color: "from-green-500/10" },
+  { name: "Streetwear", img: sneaker4, count: "15 Products", color: "from-purple-500/10" },
+  { name: "Daily Wear", img: sneaker5, count: "28 Products", color: "from-red-500/10" },
 ];
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 80, rotateY: -15, scale: 0.9 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    rotateY: 0,
-    scale: 1,
-    transition: {
-      delay: i * 0.12,
-      duration: 0.8,
-      ease: [0.2, 0.8, 0.2, 1] as [number, number, number, number],
-    },
-  }),
-};
 
 const FeaturedCollection = () => {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="collection" className="relative py-32" ref={ref}>
+    <section id="collection" className="section-padding" ref={ref}>
       <div className="container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="mb-16 text-center"
-        >
-          <motion.p
-            initial={{ opacity: 0, letterSpacing: "0em" }}
-            animate={inView ? { opacity: 1, letterSpacing: "0.3em" } : {}}
-            transition={{ duration: 1 }}
-            className="mb-3 font-body text-sm uppercase text-primary"
+        {/* Header */}
+        <div className="mb-16 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7 }}
           >
-            Curated For You
-          </motion.p>
-          <h2 className="font-display text-5xl font-bold text-foreground md:text-7xl">
-            Featured <span className="text-primary">Collection</span>
-          </h2>
-        </motion.div>
+            <p className="mb-3 font-body text-[11px] uppercase tracking-[0.3em] text-primary">Curated For You</p>
+            <h2 className="font-display text-4xl font-bold text-foreground md:text-6xl lg:text-7xl">
+              Shop by <span className="text-gradient">Category</span>
+            </h2>
+          </motion.div>
+          <motion.a
+            href="#"
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.3 }}
+            className="group flex items-center gap-2 font-body text-sm text-muted-foreground transition-colors hover:text-primary"
+          >
+            View All Categories <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </motion.a>
+        </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5" style={{ perspective: "1200px" }}>
+        {/* Grid: First 2 large, last 3 small */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {categories.map((cat, i) => (
             <motion.div
               key={cat.name}
-              custom={i}
-              initial="hidden"
-              animate={inView ? "visible" : "hidden"}
-              variants={cardVariants}
-              whileHover={{ y: -16, scale: 1.03, rotateY: 5, transition: { duration: 0.3 } }}
-              className="group relative cursor-pointer overflow-hidden rounded-2xl gradient-card border border-border transition-all duration-500 hover:border-primary/50 hover:glow-box"
-              style={{ transformStyle: "preserve-3d" }}
+              initial={{ opacity: 0, y: 50 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: i * 0.08, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -6 }}
+              className={`group relative cursor-pointer overflow-hidden rounded-2xl border border-border bg-card transition-all duration-500 hover:border-primary/30 ${
+                i < 2 ? "lg:col-span-1 lg:row-span-1" : ""
+              }`}
             >
-              <div className="relative overflow-hidden p-6 pb-0">
+              <div className={`absolute inset-0 bg-gradient-to-br ${cat.color} to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100`} />
+              
+              <div className="relative flex flex-col items-center p-8 pb-6">
                 <motion.img
                   src={cat.img}
                   alt={cat.name}
-                  className="mx-auto h-48 w-48 object-contain"
-                  whileHover={{ scale: 1.15, rotate: 12 }}
-                  transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                  className="h-40 w-40 object-contain transition-transform duration-700 group-hover:scale-110 group-hover:rotate-[-6deg] md:h-48 md:w-48"
                 />
-                <motion.span
-                  initial={{ x: 40, opacity: 0 }}
-                  animate={inView ? { x: 0, opacity: 1 } : {}}
-                  transition={{ delay: 0.5 + i * 0.12 }}
-                  className="absolute right-4 top-4 rounded-full bg-primary/20 px-3 py-1 text-xs font-semibold text-primary"
-                >
-                  {cat.tag}
-                </motion.span>
               </div>
-              <div className="p-6">
-                <h3 className="font-display text-xl font-semibold text-foreground">{cat.name}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{cat.desc}</p>
-                <motion.div
-                  className="mt-3 h-0.5 bg-primary"
-                  initial={{ scaleX: 0 }}
-                  whileInView={{ scaleX: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.8 + i * 0.1, duration: 0.6 }}
-                  style={{ transformOrigin: "left" }}
-                />
+              
+              <div className="relative border-t border-border/50 px-6 py-5 flex items-center justify-between">
+                <div>
+                  <h3 className="font-display text-lg font-semibold text-foreground">{cat.name}</h3>
+                  <p className="mt-0.5 text-xs text-muted-foreground">{cat.count}</p>
+                </div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-all duration-300 group-hover:border-primary group-hover:bg-primary group-hover:text-primary-foreground">
+                  <ArrowUpRight size={16} />
+                </div>
               </div>
             </motion.div>
           ))}
