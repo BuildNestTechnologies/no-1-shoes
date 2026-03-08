@@ -9,7 +9,7 @@ const counterVariants = {
     transition: {
       delay: 0.3 + i * 0.15,
       duration: 0.6,
-      ease: [0.2, 0.8, 0.2, 1],
+      ease: [0.2, 0.8, 0.2, 1] as [number, number, number, number],
     },
   }),
 };

@@ -17,7 +17,7 @@ const letterVariants = {
     opacity: 1,
     y: 0,
     rotateX: 0,
-    transition: { delay: 0.5 + i * 0.05, duration: 0.8, ease: [0.2, 0.8, 0.2, 1] },
+    transition: { delay: 0.5 + i * 0.05, duration: 0.8, ease: [0.2, 0.8, 0.2, 1] as [number, number, number, number] },
   }),
 };
 
