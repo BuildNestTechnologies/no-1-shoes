@@ -1,30 +1,24 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-const marqueeItems = [
-  "FREE DELIVERY", "PREMIUM QUALITY", "BEST PRICES", "NO.01 SHOES BOLTE",
-  "STREETWEAR", "SNEAKER CULTURE", "BHIWANDI'S FINEST", "STEP INTO STYLE",
-];
+const items = ["FREE DELIVERY", "•", "PREMIUM QUALITY", "•", "BEST PRICES", "•", "STREETWEAR", "•", "100% GENUINE", "•", "NO.01 SHOES BOLTE", "•"];
 
 const MarqueeBanner = () => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const x1 = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
-  const x2 = useTransform(scrollYProgress, [0, 1], ["-25%", "25%"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
 
   return (
-    <section ref={ref} className="relative overflow-hidden border-y border-border py-8">
-      <motion.div style={{ x: x1 }} className="flex whitespace-nowrap">
-        {[...marqueeItems, ...marqueeItems, ...marqueeItems].map((item, i) => (
-          <span key={i} className="mx-8 font-display text-4xl font-bold text-foreground/10 md:text-6xl">
-            {item} <span className="text-primary/20">•</span>
-          </span>
-        ))}
-      </motion.div>
-      <motion.div style={{ x: x2 }} className="mt-4 flex whitespace-nowrap">
-        {[...marqueeItems, ...marqueeItems, ...marqueeItems].map((item, i) => (
-          <span key={i} className="mx-8 font-display text-3xl font-bold text-primary/10 md:text-5xl">
-            {item} <span className="text-foreground/10">✦</span>
+    <section ref={ref} className="overflow-hidden border-y border-border py-5">
+      <motion.div style={{ x }} className="flex whitespace-nowrap">
+        {[...items, ...items, ...items, ...items].map((item, i) => (
+          <span
+            key={i}
+            className={`mx-3 font-display text-sm font-bold uppercase tracking-[0.15em] ${
+              item === "•" ? "text-primary" : "text-foreground/30"
+            } md:text-base`}
+          >
+            {item}
           </span>
         ))}
       </motion.div>

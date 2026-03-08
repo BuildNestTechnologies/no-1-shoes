@@ -1,206 +1,170 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { ArrowDown, Sparkles } from "lucide-react";
 import heroSneaker from "@/assets/hero-sneaker.png";
 
-const particles = Array.from({ length: 35 }, (_, i) => ({
-  id: i,
-  x: Math.random() * 100,
-  y: Math.random() * 100,
-  size: Math.random() * 6 + 2,
-  delay: Math.random() * 4,
-}));
-
-const letterVariants = {
-  hidden: { opacity: 0, y: 80, rotateX: -90 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    rotateX: 0,
-    transition: { delay: 0.5 + i * 0.05, duration: 0.8, ease: [0.2, 0.8, 0.2, 1] as [number, number, number, number] },
-  }),
-};
-
-const headline1 = "Step Into".split("");
-const headline2 = "Style.".split("");
-
 const HeroSection = () => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const sneakerY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const sneakerScale = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
+  const textY = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden pt-20">
-      {/* Animated gradient orbs */}
-      <div className="absolute inset-0">
-        <motion.div
-          animate={{ scale: [1, 1.3, 1], x: [0, 50, 0], y: [0, -30, 0] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute left-[20%] top-[20%] h-[500px] w-[500px] rounded-full bg-primary/8 blur-[120px]"
-        />
-        <motion.div
-          animate={{ scale: [1.2, 1, 1.2], x: [0, -40, 0], y: [0, 40, 0] }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute right-[10%] bottom-[20%] h-[400px] w-[400px] rounded-full bg-accent/6 blur-[100px]"
-        />
-        <motion.div
-          animate={{ scale: [1, 1.5, 1], rotate: [0, 180, 360] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute left-[50%] top-[40%] h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/12 blur-[80px]"
-        />
+    <section ref={ref} className="relative min-h-screen overflow-hidden noise-bg">
+      {/* Subtle gradient orbs */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute left-[15%] top-[25%] h-[600px] w-[600px] rounded-full bg-primary/[0.07] blur-[150px]" />
+        <div className="absolute right-[10%] bottom-[10%] h-[400px] w-[400px] rounded-full bg-accent/[0.04] blur-[120px]" />
       </div>
 
-      {/* Animated grid lines */}
-      <div className="absolute inset-0 opacity-[0.03]"
+      {/* Grid pattern */}
+      <div className="absolute inset-0 opacity-[0.02]"
         style={{
-          backgroundImage: `linear-gradient(hsl(var(--primary)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)`,
-          backgroundSize: '60px 60px',
+          backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
+          backgroundSize: '80px 80px',
         }}
       />
 
-      {/* Particles */}
-      {particles.map((p) => (
-        <motion.div
-          key={p.id}
-          className="particle"
-          style={{ left: `${p.x}%`, top: `${p.y}%`, width: p.size, height: p.size }}
-          animate={{ y: [-20, 20, -20], opacity: [0.3, 0.8, 0.3] }}
-          transition={{ duration: 4, delay: p.delay, repeat: Infinity, ease: "easeInOut" }}
-        />
-      ))}
+      <motion.div style={{ opacity }} className="relative z-10 flex min-h-screen items-center pt-20">
+        <div className="container mx-auto px-6">
+          <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
+            {/* Text */}
+            <motion.div style={{ y: textY }} className="text-center lg:text-left">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-2"
+              >
+                <Sparkles className="h-3.5 w-3.5 text-primary" />
+                <span className="font-body text-xs font-medium uppercase tracking-[0.2em] text-primary">New Collection 2026</span>
+              </motion.div>
 
-      {/* Floating rings */}
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        className="absolute left-[50%] top-[50%] h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-primary/10"
-      />
-      <motion.div
-        animate={{ rotate: -360 }}
-        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        className="absolute left-[50%] top-[50%] h-[450px] w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-accent/10"
-      />
+              <motion.h1
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="font-display text-[3.5rem] font-bold leading-[0.95] text-foreground sm:text-7xl md:text-8xl lg:text-[7rem]"
+              >
+                Step Into
+                <br />
+                <span className="text-gradient">Style.</span>
+              </motion.h1>
 
-      <div className="container relative z-10 mx-auto grid items-center gap-8 px-6 lg:grid-cols-2">
-        {/* Text */}
-        <div className="text-center lg:text-left">
-          <motion.p
-            initial={{ opacity: 0, y: 30, letterSpacing: "0em" }}
-            animate={{ opacity: 1, y: 0, letterSpacing: "0.3em" }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="mb-4 font-body text-sm font-medium uppercase text-primary"
-          >
-            Premium Footwear
-          </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.7 }}
+                className="mx-auto mt-6 max-w-lg font-body text-base leading-relaxed text-muted-foreground lg:mx-0 lg:text-lg"
+              >
+                Premium footwear collection curated by Chirag at No.01 Shoes Bolte. 
+                Where street culture meets everyday comfort.
+              </motion.p>
 
-          <h1 className="font-display text-6xl font-bold leading-none text-foreground md:text-8xl lg:text-9xl">
-            <span className="inline-block">
-              {headline1.map((char, i) => (
-                <motion.span
-                  key={`h1-${i}`}
-                  custom={i}
-                  initial="hidden"
-                  animate="visible"
-                  variants={letterVariants}
-                  className="inline-block"
-                  style={{ display: char === " " ? "inline" : "inline-block" }}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1 }}
+                className="mt-10 flex flex-wrap justify-center gap-4 lg:justify-start"
+              >
+                <motion.a
+                  href="#collection"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="magnetic-btn rounded-full bg-primary px-8 py-4 font-display text-sm font-semibold uppercase tracking-wider text-primary-foreground hover:glow-box"
                 >
-                  {char === " " ? "\u00A0" : char}
-                </motion.span>
-              ))}
-            </span>
-            <br />
-            <span className="inline-block text-glow text-primary">
-              {headline2.map((char, i) => (
-                <motion.span
-                  key={`h2-${i}`}
-                  custom={i + headline1.length}
-                  initial="hidden"
-                  animate="visible"
-                  variants={letterVariants}
-                  className="inline-block"
+                  Shop Collection
+                </motion.a>
+                <motion.a
+                  href="#store"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="magnetic-btn rounded-full border border-border px-8 py-4 font-display text-sm font-semibold uppercase tracking-wider text-foreground transition-all hover:border-primary/50 hover:text-primary"
                 >
-                  {char}
-                </motion.span>
-              ))}
-            </span>
-          </h1>
+                  Visit Store
+                </motion.a>
+              </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.2 }}
-            className="mt-6 max-w-md font-body text-lg text-muted-foreground lg:mx-0 mx-auto"
-          >
-            Premium Footwear Collection at No.01 Shoes Bolte
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.5 }}
-            className="mt-8 flex flex-wrap justify-center gap-4 lg:justify-start"
-          >
-            <motion.a
-              href="#collection"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-              className="magnetic-btn glow-box rounded-full bg-primary px-8 py-4 font-display text-sm font-semibold uppercase tracking-wider text-primary-foreground"
+              {/* Trust badges */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.3 }}
+                className="mt-10 flex flex-wrap items-center justify-center gap-6 lg:justify-start"
+              >
+                {["500+ Happy Customers", "100% Genuine", "Free Delivery"].map((badge) => (
+                  <span key={badge} className="flex items-center gap-2 font-body text-xs text-muted-foreground">
+                    <span className="h-1 w-1 rounded-full bg-primary" />
+                    {badge}
+                  </span>
+                ))}
+              </motion.div>
+            </motion.div>
+
+            {/* Sneaker */}
+            <motion.div
+              style={{ y: sneakerY, scale: sneakerScale }}
+              className="relative flex items-center justify-center"
             >
-              Shop Collection
-            </motion.a>
-            <motion.a
-              href="#store"
-              whileHover={{ scale: 1.05, borderColor: "hsl(27 100% 50%)" }}
-              whileTap={{ scale: 0.97 }}
-              className="magnetic-btn rounded-full border border-border px-8 py-4 font-display text-sm font-semibold uppercase tracking-wider text-foreground transition-all hover:text-primary"
-            >
-              Visit Store
-            </motion.a>
-          </motion.div>
+              {/* Glow behind sneaker */}
+              <div className="absolute h-72 w-72 rounded-full bg-primary/15 blur-[100px]" />
+              
+              {/* Outer ring */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+                className="absolute h-[380px] w-[380px] rounded-full border border-dashed border-primary/10 sm:h-[480px] sm:w-[480px]"
+              />
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.6, rotate: -15 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <motion.img
+                  src={heroSneaker}
+                  alt="Premium sneaker from No.01 Shoes Bolte"
+                  className="sneaker-float relative z-10 w-full max-w-md drop-shadow-[0_30px_80px_rgba(255,107,0,0.3)] sm:max-w-lg"
+                  whileHover={{ rotate: 8, scale: 1.05 }}
+                  transition={{ type: "spring", stiffness: 150, damping: 15 }}
+                  drag
+                  dragConstraints={{ left: -30, right: 30, top: -30, bottom: 30 }}
+                  dragElastic={0.08}
+                />
+              </motion.div>
+
+              {/* Price tag */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0, x: 20 }}
+                animate={{ opacity: 1, scale: 1, x: 0 }}
+                transition={{ delay: 1.5, type: "spring", stiffness: 200 }}
+                className="absolute -right-2 top-10 z-20 rounded-2xl border border-border bg-card/90 px-4 py-3 backdrop-blur-md sm:right-4"
+              >
+                <span className="block font-body text-[10px] uppercase tracking-wider text-muted-foreground">Starting at</span>
+                <span className="font-display text-2xl font-bold text-primary">₹799</span>
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
-
-        {/* Sneaker */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5, rotate: -20 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0 }}
-          transition={{ duration: 1.5, delay: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
-          className="relative flex items-center justify-center"
-        >
-          <div className="absolute h-80 w-80 rounded-full bg-primary/20 blur-[80px]" />
-          {/* Rotating dashed circle */}
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="absolute h-[420px] w-[420px] rounded-full border-2 border-dashed border-primary/20"
-          />
-          <motion.div
-            animate={{ rotate: [0, 5, -5, 0] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <motion.img
-              src={heroSneaker}
-              alt="Premium sneaker from No.01 Shoes Bolte"
-              className="sneaker-float relative z-10 w-full max-w-lg drop-shadow-[0_20px_60px_rgba(255,107,0,0.4)]"
-              whileHover={{ rotate: 15, scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 200 }}
-              drag
-              dragConstraints={{ left: -20, right: 20, top: -20, bottom: 20 }}
-              dragElastic={0.1}
-            />
-          </motion.div>
-        </motion.div>
-      </div>
+      </motion.div>
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2 }}
+        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
       >
-        <div className="flex flex-col items-center gap-2">
-          <span className="font-body text-xs uppercase tracking-[0.3em] text-muted-foreground">Scroll</span>
-          <div className="h-10 w-6 rounded-full border-2 border-muted-foreground/30 p-1">
-            <motion.div
-              className="mx-auto h-2 w-1 rounded-full bg-primary"
-              animate={{ y: [0, 16, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-          </div>
-        </div>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="flex flex-col items-center gap-2"
+        >
+          <span className="font-body text-[10px] uppercase tracking-[0.3em] text-muted-foreground">Scroll to explore</span>
+          <ArrowDown className="h-4 w-4 text-primary" />
+        </motion.div>
       </motion.div>
     </section>
   );

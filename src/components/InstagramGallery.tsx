@@ -11,41 +11,41 @@ const images = [sneaker1, sneaker2, sneaker3, sneaker4, sneaker5, heroSneaker];
 
 const InstagramGallery = () => {
   return (
-    <section className="relative py-32">
+    <section className="section-padding">
       <div className="container mx-auto px-6">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="mb-16 text-center"
         >
-          <p className="mb-3 font-body text-sm uppercase tracking-[0.3em] text-primary">Follow Us</p>
-          <h2 className="font-display text-5xl font-bold text-foreground md:text-7xl">
-            @No_1_shoes_<span className="text-primary">bolte</span>
+          <p className="mb-3 font-body text-[11px] uppercase tracking-[0.3em] text-primary">Follow Us</p>
+          <h2 className="font-display text-4xl font-bold text-foreground md:text-6xl lg:text-7xl">
+            @No_1_shoes_<span className="text-gradient">bolte</span>
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
           {images.map((img, i) => (
             <motion.a
               key={i}
-              href="https://instagram.com"
+              href="https://instagram.com/No_1_shoes_bolte"
               target="_blank"
               rel="noreferrer"
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ scale: 1.03 }}
-              className="group relative aspect-square overflow-hidden rounded-2xl gradient-card border border-border"
+              transition={{ delay: i * 0.06 }}
+              whileHover={{ scale: 1.02 }}
+              className="group relative aspect-square overflow-hidden rounded-2xl border border-border bg-card"
             >
               <img
                 src={img}
                 alt="Sneaker"
-                className="h-full w-full object-contain p-8 transition-transform duration-700 group-hover:scale-110"
+                className="h-full w-full object-contain p-6 transition-transform duration-700 group-hover:scale-110"
               />
-              <div className="absolute inset-0 flex items-center justify-center bg-primary/0 transition-all duration-300 group-hover:bg-primary/20">
-                <Instagram className="text-foreground opacity-0 transition-all duration-300 group-hover:opacity-100" size={32} />
+              <div className="absolute inset-0 flex items-center justify-center bg-background/0 transition-all duration-300 group-hover:bg-background/60">
+                <Instagram className="text-foreground opacity-0 transition-all duration-300 group-hover:opacity-100" size={28} />
               </div>
             </motion.a>
           ))}
