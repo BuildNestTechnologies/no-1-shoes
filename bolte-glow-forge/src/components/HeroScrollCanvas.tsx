@@ -6,7 +6,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const TOTAL_FRAMES = 194;
 // Intro auto-plays to this frame so the right side is never empty on load
-const INTRO_END_FRAME = 38;
+const INTRO_END_FRAME = 71;
 
 interface HeroScrollCanvasProps {
   triggerRef: React.RefObject<HTMLDivElement>;
