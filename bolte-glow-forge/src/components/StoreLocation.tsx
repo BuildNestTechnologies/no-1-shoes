@@ -26,7 +26,7 @@ const StoreLocation = () => {
             className="overflow-hidden rounded-2xl border border-border"
           >
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3767.0!2d73.05!3d19.3!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDE4JzAwLjAiTiA3M8KwMDMnMDAuMCJF!5e0!3m2!1sen!2sin!4v1"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15132.062831206126!2d73.8703451!3d18.5146051!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c046c8273619%3A0x6bba3bc30a91f413!2sCamp%2C%20Pune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1714570000000!5m2!1sen!2sin"
               width="100%"
               height="400"
               style={{ border: 0, filter: "invert(0.9) hue-rotate(180deg)" }}
@@ -76,7 +76,7 @@ const StoreLocation = () => {
               <a href="tel:9607281858" className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 font-display text-xs font-semibold uppercase tracking-wider text-primary-foreground transition-all hover:glow-box-subtle hover:scale-105">
                 <Phone size={14} /> Call Now
               </a>
-              <a href="https://maps.google.com" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-border px-7 py-3.5 font-display text-xs font-semibold uppercase tracking-wider text-foreground transition-all hover:border-primary/50 hover:text-primary">
+              <a href="https://maps.google.com/?q=Kolsa+Street+Camp+Pune" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-border px-7 py-3.5 font-display text-xs font-semibold uppercase tracking-wider text-foreground transition-all hover:border-primary/50 hover:text-primary">
                 <Navigation size={14} /> Get Directions
               </a>
             </div>
